@@ -11,9 +11,18 @@ public abstract class EventDB extends RoomDatabase {
 
     private static final String DB_NAME = "eventdb";
 
+    private static volatile EventDB INSTANCE;
+
     public abstract EventDao eventDao();
 
     public static EventDB getInstance(Context c) {
-        return Room.databaseBuilder(c, EventDB.class, DB_NAME).build();
+        if (INSTANCE == null) {
+            synchronized (EventDB.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(c.getApplicationContext(), EventDB.class, DB_NAME).build();
+                }
+            }
+        }
+        return INSTANCE;
     }
 }
