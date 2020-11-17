@@ -11,9 +11,16 @@ public class EventType {
     public int id;
 
     @NonNull
-    String name;
+    public String name;
 
     public EventType(@NonNull String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o.getClass() != EventType.class) return false;
+        EventType t = (EventType) o;
+        return t.id == id;
     }
 }

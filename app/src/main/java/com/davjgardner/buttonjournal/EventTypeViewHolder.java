@@ -1,0 +1,33 @@
+package com.davjgardner.buttonjournal;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.davjgardner.buttonjournal.eventdb.EventType;
+
+public class EventTypeViewHolder extends RecyclerView.ViewHolder {
+
+    private EventTypeViewHolder(@NonNull View itemView) {
+        super(itemView);
+    }
+
+    public void bind(EventType t) {
+        Button triggerButton = itemView.findViewById(R.id.eventTriggeredButton);
+        triggerButton.setText(t.name);
+        Button viewEventsButton = itemView.findViewById(R.id.viewTimelineButton);
+        viewEventsButton.setOnClickListener(e -> {
+            // TODO trigger event timeline view
+        });
+    }
+
+    static EventTypeViewHolder create(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.event_button_view, parent, false);
+        return new EventTypeViewHolder(view);
+    }
+}
