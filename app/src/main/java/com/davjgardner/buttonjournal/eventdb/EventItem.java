@@ -17,4 +17,9 @@ public class EventItem {
         this.type = type;
         this.timestamp = System.currentTimeMillis();
     }
+
+    public EventItem(EventType type) {
+        this.type = type.id;
+        this.timestamp = System.currentTimeMillis();
+    }
 }

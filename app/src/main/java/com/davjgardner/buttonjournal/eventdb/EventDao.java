@@ -1,5 +1,6 @@
 package com.davjgardner.buttonjournal.eventdb;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,13 +12,13 @@ import java.util.List;
 public interface EventDao {
 
     @Query("SELECT * FROM eventtype")
-    List<EventType> getEventTypes();
+    LiveData<List<EventType>> getEventTypes();
 
     @Query("SELECT * FROM eventitem WHERE type=:type")
-    List<EventItem> getEvents(int type);
+    LiveData<List<EventItem>> getEvents(int type);
 
     @Query("SELECT * FROM eventitem")
-    List<EventItem> getAllEvents();
+    LiveData<List<EventItem>> getAllEvents();
 
     @Insert
     void createEvent(EventItem e);
