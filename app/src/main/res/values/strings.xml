@@ -3,4 +3,6 @@
     <string name="add_event_button_description">Add New Event</string>
     <string name="view_timeline_button_text">View</string>
     <string name="event_triggered_button_placeholder">Event</string>
+    <string name="add_event_type_create">Create</string>
+    <string name="event_name">Event Name</string>
 </resources>

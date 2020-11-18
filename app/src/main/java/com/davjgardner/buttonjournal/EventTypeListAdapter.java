@@ -16,12 +16,13 @@ public class EventTypeListAdapter extends ListAdapter<EventType, EventTypeViewHo
     @NonNull
     @Override
     public EventTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        return EventTypeViewHolder.create(parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventTypeViewHolder holder, int position) {
-
+        EventType currentItem = getItem(position);
+        holder.bind(currentItem);
     }
 
     static class EventTypeDiff extends DiffUtil.ItemCallback<EventType> {

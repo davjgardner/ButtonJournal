@@ -1,5 +1,6 @@
 package com.davjgardner.buttonjournal;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,19 @@ import com.davjgardner.buttonjournal.eventdb.EventType;
 
 public class EventTypeViewHolder extends RecyclerView.ViewHolder {
 
+    private static final String TAG = "EventTypeViewHolder";
+
+    View itemRoot;
+
     private EventTypeViewHolder(@NonNull View itemView) {
         super(itemView);
+        this.itemRoot = itemView;
     }
 
     public void bind(EventType t) {
-        Button triggerButton = itemView.findViewById(R.id.eventTriggeredButton);
+        Button triggerButton = itemRoot.findViewById(R.id.eventTriggeredButton);
         triggerButton.setText(t.name);
-        Button viewEventsButton = itemView.findViewById(R.id.viewTimelineButton);
+        Button viewEventsButton = itemRoot.findViewById(R.id.viewTimelineButton);
         viewEventsButton.setOnClickListener(e -> {
             // TODO trigger event timeline view
         });

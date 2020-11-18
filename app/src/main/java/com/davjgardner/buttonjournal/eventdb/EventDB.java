@@ -2,9 +2,11 @@ package com.davjgardner.buttonjournal.eventdb;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,10 +27,28 @@ public abstract class EventDB extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (EventDB.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(c.getApplicationContext(), EventDB.class, DB_NAME).build();
+                    INSTANCE = Room.databaseBuilder(c.getApplicationContext(), EventDB.class, DB_NAME).addCallback(rdCallback).build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    // FIXME DEBUG ONLY
+    private static RoomDatabase.Callback rdCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+
+            databaseWriter.execute(() -> {
+                EventDao dao = INSTANCE.eventDao();
+                dao.deleteAllTypes();
+
+                EventType e = new EventType("Event 1");
+                dao.createEventType(e);
+                e = new EventType("Event 2");
+                dao.createEventType(e);
+            });
+        }
+    };
 }

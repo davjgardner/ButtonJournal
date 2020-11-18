@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    tools:context=".AddEventTypeActivity">
 
-    <Button
-        android:id="@+id/eventTriggeredButton"
+    <EditText
+        android:id="@+id/addEventTypeName"
         android:layout_width="0dp"
+
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/button_padding"
-        android:layout_marginEnd="@dimen/button_padding"
-        android:text="@string/event_triggered_button_placeholder"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/viewTimelineButton"
+        android:layout_marginTop="4dp"
+        android:hint="@string/event_name"
+        android:importantForAutofill="no"
+        android:inputType="textShortMessage|textCapWords"
+        app:layout_constraintEnd_toStartOf="@+id/addEventTypeCreate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/viewTimelineButton"
+        android:id="@+id/addEventTypeCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/button_padding"
-        android:text="@string/view_timeline_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/add_event_type_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

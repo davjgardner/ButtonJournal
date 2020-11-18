@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TypeViewModel extends AndroidViewModel {
 
-    private EventRepository repo;
+    private final EventRepository repo;
     private final LiveData<List<EventType>> types;
 
     public TypeViewModel(@NonNull Application application) {
