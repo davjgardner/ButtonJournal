@@ -5,4 +5,14 @@
     <string name="event_triggered_button_placeholder">Event</string>
     <string name="add_event_type_create">Create</string>
     <string name="event_name">Event Name</string>
+    <string name="placeholder">placeholder</string>
+    <string name="label_count">Count</string>
+    <string name="label_average">Average</string>
+    <string name="label_day">Day</string>
+    <string name="label_week">Week</string>
+    <string name="label_month">Month</string>
+    <string name="title_event_log">Event Log</string>
+    <string name="cdesc_delete_event">Delete Event</string>
+    <string name="cdesc_add_event">Add Event of this Type</string>
+    <string name="label_year">Year</string>
 </resources>
