@@ -14,10 +14,10 @@ public interface EventDao {
     @Query("SELECT * FROM eventtype")
     LiveData<List<EventType>> getEventTypes();
 
-    @Query("SELECT * FROM eventitem WHERE type=:type")
+    @Query("SELECT * FROM eventitem WHERE type=:type ORDER BY timestamp DESC")
     LiveData<List<EventItem>> getEvents(int type);
 
-    @Query("SELECT * FROM eventitem")
+    @Query("SELECT * FROM eventitem ORDER BY timestamp DESC")
     LiveData<List<EventItem>> getAllEvents();
 
     @Insert
