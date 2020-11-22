@@ -140,6 +140,24 @@
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder" />
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_total"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/tv_total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder" />
+
+        </TableRow>
     </TableLayout>
 
     <androidx.recyclerview.widget.RecyclerView

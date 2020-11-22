@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -59,7 +58,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         timeButton.setOnClickListener(l -> {
             TimePickerDialog timePicker = new TimePickerDialog(AddEventActivity.this, 0, (tp, hour, minute) -> {
-                date.set(Calendar.HOUR, hour);
+                date.set(Calendar.HOUR_OF_DAY, hour);
                 date.set(Calendar.MINUTE, minute);
                 timeField.setText(DateFormat.getTimeFormat(this).format(date.getTime()));
             }, hr, min, false);

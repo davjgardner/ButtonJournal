@@ -2,7 +2,6 @@ package com.davjgardner.buttonjournal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.davjgardner.buttonjournal.eventdb.EventItem;
 import com.davjgardner.buttonjournal.eventdb.EventType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,31 +74,39 @@ public class ViewEventActivity extends AppCompatActivity {
         events.observe(this, events -> {
             long now = System.currentTimeMillis();
             Calendar since = Calendar.getInstance();
-            since.set(Calendar.HOUR, 0);
-            since.set(Calendar.MINUTE, 0);
-            since.set(Calendar.SECOND, 0);
-            since.set(Calendar.MILLISECOND, 0);
+            setToStart(since, DAY);
 
             TextView dayCount = findViewById(R.id.tv_day_count);
             dayCount.setText(lts(countSince(since.getTimeInMillis())));
+
+            TextView dayAverage = findViewById(R.id.tv_day_average);
+            dayAverage.setText(dts(average(DAY)));
 
             since.set(Calendar.DAY_OF_MONTH, 1);
 
             TextView monthCount = findViewById(R.id.tv_month_count);
             monthCount.setText(lts(countSince(since.getTimeInMillis())));
 
+            TextView monthAverage = findViewById(R.id.tv_month_average);
+            monthAverage.setText(dts(average(MONTH)));
+
             since.set(Calendar.DAY_OF_YEAR, 1);
             TextView yearCount = findViewById(R.id.tv_year_count);
             yearCount.setText(lts(countSince(since.getTimeInMillis())));
 
+            TextView yearAverage = findViewById(R.id.tv_year_average);
+            yearAverage.setText(dts(average(YEAR)));
+
             since = Calendar.getInstance();
-            since.set(Calendar.HOUR, 0);
-            since.set(Calendar.MINUTE, 0);
-            since.set(Calendar.SECOND, 0);
-            since.set(Calendar.MILLISECOND, 0);
-            since.set(Calendar.DAY_OF_WEEK, 1);
+            setToStart(since, WEEK);
             TextView weekCount = findViewById(R.id.tv_week_count);
-            weekCount.setText(lts(countSince(now - DateUtils.WEEK_IN_MILLIS)));
+            weekCount.setText(lts(countSince(since.getTimeInMillis())));
+
+            TextView weekAverage = findViewById(R.id.tv_week_average);
+            weekAverage.setText(dts(average(WEEK)));
+
+            TextView totalCount = findViewById(R.id.tv_total_count);
+            totalCount.setText(lts(events.size()));
         });
     }
 
@@ -123,7 +131,13 @@ public class ViewEventActivity extends AppCompatActivity {
         return String.format(getResources().getConfiguration().getLocales().get(0), "%d", l);
     }
 
+    private String dts(double d) {
+        return String.format(getResources().getConfiguration().getLocales().get(0), "%f", d);
+    }
+
     private long countSince(long time) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
         return countBetween(time, System.currentTimeMillis());
     }
 
@@ -137,6 +151,67 @@ public class ViewEventActivity extends AppCompatActivity {
 
     private EventItem getLatest() {
         return getEvents().stream().max((e1, e2) -> Long.compare(e1.timestamp, e2.timestamp)).orElse(null);
+    }
+
+    private double average(int field) {
+        if (getEvents().size() == 0) return 0.0;
+
+        Calendar end = Calendar.getInstance();
+        Calendar start = Calendar.getInstance();
+        setToStart(start, field);
+        Calendar first = Calendar.getInstance();
+        setToStart(first, field);
+        first.setTimeInMillis(getEarliest().timestamp);
+
+        int increment = Calendar.DAY_OF_MONTH;
+        switch (field) {
+            case DAY:
+                increment = Calendar.DAY_OF_MONTH;
+                break;
+            case WEEK:
+                increment = Calendar.WEEK_OF_YEAR;
+                break;
+            case MONTH:
+                increment = Calendar.MONTH;
+                break;
+            case YEAR:
+                increment = Calendar.YEAR;
+                break;
+        }
+
+        double count = 0;
+        double periods = 0;
+        while (end.after(first)) {
+            count += countBetween(start.getTimeInMillis(), end.getTimeInMillis());
+            periods++;
+            end.setTimeInMillis(start.getTimeInMillis());
+            start.add(increment, -1);
+        }
+        return count / periods;
+    }
+
+    public static final int DAY = 1, WEEK = 2, MONTH = 3, YEAR = 4;
+
+    private void setToStart(Calendar date, int field) {
+        switch (field) {
+            case YEAR:
+                date.set(Calendar.MONTH, 1);
+            case MONTH:
+                date.set(Calendar.DAY_OF_MONTH, 1);
+            case DAY:
+                date.set(Calendar.HOUR_OF_DAY, 0);
+                date.set(Calendar.MINUTE, 0);
+                date.set(Calendar.SECOND, 0);
+                date.set(Calendar.MILLISECOND, 0);
+                break;
+            case WEEK:
+                date.set(Calendar.DAY_OF_WEEK, 1);
+                date.set(Calendar.HOUR_OF_DAY, 0);
+                date.set(Calendar.MINUTE, 0);
+                date.set(Calendar.SECOND, 0);
+                date.set(Calendar.MILLISECOND, 0);
+                break;
+        }
     }
 
 
