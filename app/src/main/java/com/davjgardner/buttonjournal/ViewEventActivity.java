@@ -73,18 +73,32 @@ public class ViewEventActivity extends AppCompatActivity {
 
         events.observe(this, events -> {
             long now = System.currentTimeMillis();
+            Calendar since = Calendar.getInstance();
+            since.set(Calendar.HOUR, 0);
+            since.set(Calendar.MINUTE, 0);
+            since.set(Calendar.SECOND, 0);
+            since.set(Calendar.MILLISECOND, 0);
 
             TextView dayCount = findViewById(R.id.tv_day_count);
-            dayCount.setText(lts(countSince(now - DateUtils.DAY_IN_MILLIS)));
+            dayCount.setText(lts(countSince(since.getTimeInMillis())));
+
+            since.set(Calendar.DAY_OF_MONTH, 1);
 
             TextView monthCount = findViewById(R.id.tv_month_count);
-            monthCount.setText(lts(countSince(now - DateUtils.DAY_IN_MILLIS * DAYS_IN_MONTH)));
+            monthCount.setText(lts(countSince(since.getTimeInMillis())));
 
+            since.set(Calendar.DAY_OF_YEAR, 1);
+            TextView yearCount = findViewById(R.id.tv_year_count);
+            yearCount.setText(lts(countSince(since.getTimeInMillis())));
+
+            since = Calendar.getInstance();
+            since.set(Calendar.HOUR, 0);
+            since.set(Calendar.MINUTE, 0);
+            since.set(Calendar.SECOND, 0);
+            since.set(Calendar.MILLISECOND, 0);
+            since.set(Calendar.DAY_OF_WEEK, 1);
             TextView weekCount = findViewById(R.id.tv_week_count);
             weekCount.setText(lts(countSince(now - DateUtils.WEEK_IN_MILLIS)));
-
-            TextView yearCount = findViewById(R.id.tv_year_count);
-            yearCount.setText(lts(countSince(now - DateUtils.DAY_IN_MILLIS * DAYS_IN_YEAR)));
         });
     }
 
