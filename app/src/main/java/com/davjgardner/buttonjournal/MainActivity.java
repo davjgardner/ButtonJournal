@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.davjgardner.buttonjournal.eventdb.EventType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int NEW_TYPE_ACTIVITY_REQUEST_CODE = 1;
 
-    private TypeViewModel viewModel;
+    private EventTypeViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         eventTypesView.setAdapter(etAdapter);
         eventTypesView.setLayoutManager(new LinearLayoutManager(this));
 
-        viewModel = new ViewModelProvider(this).get(TypeViewModel.class);
+        viewModel = new ViewModelProvider(this).get(EventTypeViewModel.class);
         viewModel.getTypes().observe(this, etAdapter::submitList);
 
         FloatingActionButton addButton = findViewById(R.id.addEventButton);
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

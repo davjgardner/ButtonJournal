@@ -11,12 +11,12 @@ import com.davjgardner.buttonjournal.eventdb.EventType;
 
 import java.util.List;
 
-public class TypeViewModel extends AndroidViewModel {
+public class EventTypeViewModel extends AndroidViewModel {
 
     private final EventRepository repo;
     private final LiveData<List<EventType>> types;
 
-    public TypeViewModel(@NonNull Application application) {
+    public EventTypeViewModel(@NonNull Application application) {
         super(application);
         repo = new EventRepository(application);
         types = repo.getEventTypes();
