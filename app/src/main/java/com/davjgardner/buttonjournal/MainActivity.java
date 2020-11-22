@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,6 +51,28 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AddEventTypeActivity.class);
             startActivityForResult(intent, NEW_TYPE_ACTIVITY_REQUEST_CODE);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    boolean deleteMode = false;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_delete_types) {
+            deleteMode = !deleteMode;
+            if (deleteMode) {
+                item.setTitle(R.string.delete_event_types);
+            } else {
+                item.setTitle(R.string.done);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

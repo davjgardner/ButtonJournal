@@ -21,4 +21,6 @@
     <string name="pick">Pick</string>
     <string name="title_new_event">New Event: \"%1s\"</string>
     <string name="label_total">Total</string>
+    <string name="delete_event_types">Delete Event Types</string>
+    <string name="done">Done</string>
 </resources>
