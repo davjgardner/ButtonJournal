@@ -37,6 +37,10 @@ public class EventRepository {
         EventDB.databaseWriter.execute(() -> eventDao.createEvent(e));
     }
 
+    public void createEvent(EventItem e) {
+        EventDB.databaseWriter.execute(() -> eventDao.createEvent(e));
+    }
+
     public void createEventType(String name) {
         EventDB.databaseWriter.execute(() -> eventDao.createEventType(new EventType(name)));
     }

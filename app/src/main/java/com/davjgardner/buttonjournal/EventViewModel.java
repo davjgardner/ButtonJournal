@@ -14,21 +14,28 @@ import java.util.List;
 
 public class EventViewModel extends AndroidViewModel {
 
-    private EventType type;
-    private EventRepository repo;
+    private final EventRepository repo;
     private LiveData<List<EventItem>> events;
+    private EventType eventType;
 
-    public EventViewModel(@NonNull Application application, EventType type) {
+    public EventViewModel(@NonNull Application application) {
         super(application);
-        this.repo = new EventRepository(application);
-        this.type = type;
-        this.events = repo.getEventsOf(type);
+        repo = new EventRepository(application.getApplicationContext());
     }
 
-    LiveData<List<EventItem>> getEvents() { return events; }
+    public void setEventType(EventType t) {
+        this.eventType = t;
+    }
 
-    public void createEvent() { repo.createEventOf(type); }
+    LiveData<List<EventItem>> getEvents() {
+        if (events == null && eventType != null) {
+            events = repo.getEventsOf(eventType);
+        }
+        return events;
+    }
 
-    public void deleteEvent(EventItem e) { repo.deleteEvent(e); }
+    public void createEvent(long timestamp) {
+        repo.createEvent(new EventItem(eventType, timestamp));
+    }
 
 }

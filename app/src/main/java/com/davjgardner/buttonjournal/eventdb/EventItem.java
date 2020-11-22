@@ -23,10 +23,20 @@ public class EventItem {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public EventItem(EventType type, long timestamp) {
+        this.type = type.id;
+        this.timestamp = timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o.getClass() != EventItem.class) return false;
         EventItem e = (EventItem) o;
         return e.id == id;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + id + "]: typeid " + type + " from " + timestamp;
     }
 }
