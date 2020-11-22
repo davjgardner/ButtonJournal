@@ -48,4 +48,11 @@ public class EventRepository {
     public void deleteEvent(EventItem e) {
         EventDB.databaseWriter.execute(() -> eventDao.deleteEvent(e));
     }
+
+    public void deleteTypeAndEvents(EventType t) {
+        EventDB.databaseWriter.execute(() -> {
+            eventDao.deleteEventsOf(t.id);
+            eventDao.deleteType(t);
+        });
+    }
 }

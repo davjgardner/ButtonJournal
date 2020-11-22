@@ -38,6 +38,9 @@ public interface EventDao {
     @Query("DELETE FROM eventitem WHERE id=:id")
     void deleteEvent(int id);
 
+    @Query("DELETE FROM eventitem WHERE type=:type")
+    void deleteEventsOf(int type);
+
     @Query("DELETE FROM eventitem")
     void deleteAllEvents();
 

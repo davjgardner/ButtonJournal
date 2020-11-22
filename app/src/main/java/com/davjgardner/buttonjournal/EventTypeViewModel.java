@@ -27,4 +27,8 @@ public class EventTypeViewModel extends AndroidViewModel {
     public void createType(String name) { repo.createEventType(name); }
 
     public void createEventOf(EventType t) { repo.createEventOf(t); }
+
+    public void deleteTypeAndEvents(EventType t) {
+        repo.deleteTypeAndEvents(t);
+    }
 }
