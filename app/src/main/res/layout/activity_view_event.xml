@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ViewEventActivity">
 
     <TextView
@@ -20,10 +21,12 @@
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/base_padding"
+        android:paddingEnd="@dimen/base_padding"
+        android:stretchColumns="0,1,2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_view_title"
-        android:stretchColumns="0,1,2">
+        app:layout_constraintTop_toBottomOf="@+id/event_view_title">
 
         <TableRow
             android:layout_width="match_parent"
@@ -36,12 +39,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_count" />
+                android:text="@string/label_count"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_average" />
+                android:text="@string/label_average"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
         </TableRow>
 
         <TableRow
@@ -51,7 +56,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_day" />
+                android:text="@string/label_day"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/tv_day_count"
@@ -73,7 +79,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_week" />
+                android:text="@string/label_week"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/tv_week_count"
@@ -95,7 +102,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_month" />
+                android:text="@string/label_month"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/tv_month_count"
@@ -112,12 +120,13 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_year" />
+                android:text="@string/label_year"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/tv_year_count"
@@ -137,6 +146,9 @@
         android:id="@+id/event_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/base_padding"
+        android:paddingEnd="@dimen/base_padding"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_event_log"

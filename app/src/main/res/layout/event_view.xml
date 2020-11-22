@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder"
+        app:layout_constraintBottom_toBottomOf="@+id/event_view_delete_event"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/event_view_delete_event" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,13 @@
         android:layout_width="0dp"
 
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="@dimen/base_padding"
+        android:layout_marginTop="@dimen/base_padding"
         android:hint="@string/event_name"
         android:importantForAutofill="no"
         android:inputType="textShortMessage|textCapWords"
+        android:paddingStart="@dimen/base_padding"
+        android:paddingEnd="@dimen/base_padding"
         app:layout_constraintEnd_toStartOf="@+id/addEventTypeCreate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +26,7 @@
         android:id="@+id/addEventTypeCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_padding"
         android:text="@string/add_event_type_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
