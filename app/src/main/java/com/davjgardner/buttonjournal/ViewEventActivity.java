@@ -1,7 +1,9 @@
 package com.davjgardner.buttonjournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.davjgardner.buttonjournal.eventdb.EventItem;
 import com.davjgardner.buttonjournal.eventdb.EventType;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +33,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
     public static final String EVENT_TYPE_ID = "com.davjgardner.buttonjournal.EVENT_TYPE_ID";
     public static final String EVENT_TYPE_NAME = "com.davjgardner.buttonjournal.EVENT_TYPE_NAME";
+    public static final int NEW_EVENT_ACTIVITY_REQUEST_CODE = 1;
 
     private static final long DAYS_IN_MONTH = 30;
     private static final long DAYS_IN_YEAR = 365;
@@ -59,6 +63,12 @@ public class ViewEventActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.event_view_title);
         title.setText(eventType.name);
 
+        FloatingActionButton addButton = findViewById(R.id.event_view_add_event);
+        addButton.setOnClickListener(l -> {
+            Intent intent = new Intent(ViewEventActivity.this, AddEventActivity.class);
+            startActivity(intent);
+        });
+
         events.observe(this, events -> {
             long now = System.currentTimeMillis();
 
@@ -74,6 +84,17 @@ public class ViewEventActivity extends AppCompatActivity {
             TextView yearCount = findViewById(R.id.tv_year_count);
             yearCount.setText(lts(countSince(now - DateUtils.DAY_IN_MILLIS * DAYS_IN_YEAR)));
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_EVENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            String date = data.getStringExtra(AddEventActivity.REPLY_DATE);
+            String time = data.getStringExtra(AddEventActivity.REPLY_TIME);
+            Log.d(TAG, "Create new event at " + date + ", " + time);
+        }
     }
 
     private List<EventItem> getEvents() {

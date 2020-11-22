@@ -15,4 +15,7 @@
     <string name="cdesc_delete_event">Delete Event</string>
     <string name="cdesc_add_event">Add Event of this Type</string>
     <string name="label_year">Year</string>
+    <string name="label_date">Date</string>
+    <string name="label_time">Time</string>
+    <string name="title_select_date">Select Date</string>
 </resources>
