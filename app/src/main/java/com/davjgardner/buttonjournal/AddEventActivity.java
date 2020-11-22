@@ -6,14 +6,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class AddEventActivity extends AppCompatActivity {
 
@@ -23,49 +22,56 @@ public class AddEventActivity extends AppCompatActivity {
     public static final String REPLY_TIME = "com.davjgardner.buttonjournal.REPLY_TIME";
     public static final String REPLY_TIMESTAMP = "com.davjgardner.buttonjournal.REPLY_TIMESTAMP";
 
+    Calendar date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
-        EditText dateBox = findViewById(R.id.editTextDate);
-        EditText timeBox = findViewById(R.id.editTextTime);
-        Calendar cal = Calendar.getInstance();
-        int y = cal.get(Calendar.YEAR);
-        int m = cal.get(Calendar.MONTH);
-        int d = cal.get(Calendar.DAY_OF_MONTH);
+        TextView title = findViewById(R.id.tv_add_event_title);
+        title.setText(getString(R.string.title_new_event, getIntent().getStringExtra(ViewEventActivity.EVENT_TYPE_NAME)));
 
-        // TODO make these buttons
-        dateBox.setOnClickListener(dl -> {
+        date = Calendar.getInstance();
+        int y = date.get(Calendar.YEAR);
+        int m = date.get(Calendar.MONTH);
+        int d = date.get(Calendar.DAY_OF_MONTH);
+        int hr = date.get(Calendar.HOUR);
+        int min = date.get(Calendar.MINUTE);
+
+        Button dateButton = findViewById(R.id.btn_pick_date);
+        Button timeButton = findViewById(R.id.btn_pick_time);
+
+        TextView dateField = findViewById(R.id.tv_date_text);
+        TextView timeField = findViewById(R.id.tv_time_text);
+        dateField.setText(DateFormat.getDateFormat(this).format(date.getTime()));
+        timeField.setText(DateFormat.getTimeFormat(this).format(date.getTime()));
+
+        dateButton.setOnClickListener(l -> {
             DatePickerDialog datePicker = new DatePickerDialog(AddEventActivity.this, 0);
             datePicker.getDatePicker().init(y, m, d, (dp, year, month, day) -> {
-                cal.set(year, month, day);
+                date.set(year, month, day);
+                dateField.setText(DateFormat.getDateFormat(this).format(date.getTime()));
             });
             datePicker.setTitle(R.string.title_select_date);
             datePicker.show();
         });
 
-        timeBox.setOnClickListener(l -> {
-            TimePickerDialog timePicker = new TimePickerDialog(AddEventActivity.this, 0, (tp, hr, min) -> {
-                cal.set(Calendar.HOUR, hr);
-                cal.set(Calendar.MINUTE, min);
-            }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), false);
+        timeButton.setOnClickListener(l -> {
+            TimePickerDialog timePicker = new TimePickerDialog(AddEventActivity.this, 0, (tp, hour, minute) -> {
+                date.set(Calendar.HOUR, hour);
+                date.set(Calendar.MINUTE, minute);
+                timeField.setText(DateFormat.getTimeFormat(this).format(date.getTime()));
+            }, hr, min, false);
             timePicker.show();
         });
 
         final Button saveButton = findViewById(R.id.add_event_save);
         saveButton.setOnClickListener(l -> {
             Intent replyIntent = new Intent();
-            if (TextUtils.isEmpty(dateBox.getText())) {
-                setResult(RESULT_CANCELED, replyIntent);
-            } else {
-                String date = dateBox.getText().toString();
-                String time = timeBox.getText().toString();
-                // TODO if time is empty, use some sane default
-                replyIntent.putExtra(REPLY_DATE, date);
-                replyIntent.putExtra(REPLY_TIME, time);
-                Log.d(TAG, "Picked time " + cal.toString());
-            }
+            replyIntent.putExtra(REPLY_TIMESTAMP, this.date.getTimeInMillis());
+            Log.d(TAG, "Picked time " + this.date.toString());
+            setResult(RESULT_OK, replyIntent);
             finish();
         });
 

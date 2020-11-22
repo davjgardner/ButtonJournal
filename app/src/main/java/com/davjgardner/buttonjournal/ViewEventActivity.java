@@ -24,6 +24,7 @@ import com.davjgardner.buttonjournal.eventdb.EventType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,8 @@ public class ViewEventActivity extends AppCompatActivity {
         FloatingActionButton addButton = findViewById(R.id.event_view_add_event);
         addButton.setOnClickListener(l -> {
             Intent intent = new Intent(ViewEventActivity.this, AddEventActivity.class);
-            startActivity(intent);
+            intent.putExtra(EVENT_TYPE_NAME, eventType.name);
+            startActivityForResult(intent, NEW_EVENT_ACTIVITY_REQUEST_CODE);
         });
 
         events.observe(this, events -> {
@@ -89,11 +91,12 @@ public class ViewEventActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == NEW_EVENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            String date = data.getStringExtra(AddEventActivity.REPLY_DATE);
-            String time = data.getStringExtra(AddEventActivity.REPLY_TIME);
-            Log.d(TAG, "Create new event at " + date + ", " + time);
+            long t = data.getLongExtra(AddEventActivity.REPLY_TIMESTAMP, 0);
+            Calendar date = Calendar.getInstance();
+            date.setTimeInMillis(t);
+            Log.d(TAG, "Create new event at " + date);
+            viewModel.createEvent(t);
         }
     }
 
@@ -177,6 +180,7 @@ public class ViewEventActivity extends AppCompatActivity {
             });
 
             TextView timestampText = itemRoot.findViewById(R.id.event_view_time);
+            // FIXME format date
             timestampText.setText(new Date(event.timestamp).toString());
         }
     }

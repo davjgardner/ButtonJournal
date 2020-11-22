@@ -18,4 +18,6 @@
     <string name="label_date">Date</string>
     <string name="label_time">Time</string>
     <string name="title_select_date">Select Date</string>
+    <string name="pick">Pick</string>
+    <string name="title_new_event">New Event: \"%1s\"</string>
 </resources>
