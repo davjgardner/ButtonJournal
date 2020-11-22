@@ -1,5 +1,6 @@
 package com.davjgardner.buttonjournal;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,9 @@ public class EventTypeViewHolder extends RecyclerView.ViewHolder {
         triggerButton.setText(t.name);
         Button viewEventsButton = itemRoot.findViewById(R.id.viewTimelineButton);
         viewEventsButton.setOnClickListener(e -> {
-            // TODO trigger event timeline view
+            Intent intent = new Intent(e.getContext(), ViewEventActivity.class);
+            intent.putExtra(ViewEventActivity.EVENT_TYPE, t.name);
+            e.getContext().startActivity(intent);
         });
     }
 
