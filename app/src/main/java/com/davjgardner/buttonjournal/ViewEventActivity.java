@@ -138,7 +138,7 @@ public class ViewEventActivity extends AppCompatActivity {
         return new EventViewHolder(view);
     }
 
-    private static class EventViewHolder extends RecyclerView.ViewHolder {
+    private class EventViewHolder extends RecyclerView.ViewHolder {
 
         private static final String TAG = "EventTypeViewHolder";
 
@@ -152,7 +152,7 @@ public class ViewEventActivity extends AppCompatActivity {
         public void bind(EventItem event) {
             AppCompatImageButton deleteButton = itemRoot.findViewById(R.id.event_view_delete_event);
             deleteButton.setOnClickListener(l -> {
-                // TODO delete
+                viewModel.deleteEvent(event);
             });
 
             TextView timestampText = itemRoot.findViewById(R.id.event_view_time);
