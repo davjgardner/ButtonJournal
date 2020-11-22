@@ -35,6 +35,7 @@ public class EventItem {
         return e.id == id;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public String toString() {
         return "[" + id + "]: typeid " + type + " from " + timestamp;
