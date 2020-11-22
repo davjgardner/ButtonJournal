@@ -18,7 +18,7 @@ public class EventTypeViewModel extends AndroidViewModel {
 
     public EventTypeViewModel(@NonNull Application application) {
         super(application);
-        repo = new EventRepository(application);
+        repo = new EventRepository(application.getApplicationContext());
         types = repo.getEventTypes();
     }
 
