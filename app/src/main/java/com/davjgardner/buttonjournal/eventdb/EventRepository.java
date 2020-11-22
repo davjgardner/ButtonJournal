@@ -1,6 +1,7 @@
 package com.davjgardner.buttonjournal.eventdb;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,7 +13,7 @@ public class EventRepository {
     private LiveData<List<EventItem>> events;
     private LiveData<List<EventType>> eventTypes;
 
-    public EventRepository(Application app) {
+    public EventRepository(Context app) {
         EventDB db = EventDB.getInstance(app);
         eventDao = db.eventDao();
         events = eventDao.getAllEvents();
