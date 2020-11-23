@@ -23,7 +23,10 @@
     <string name="label_total">Total</string>
     <string name="delete_event_types">Delete Event Types</string>
     <string name="done">Done</string>
+    <string name="delete_events">Delete Events</string>
     <string name="delete">Delete</string>
     <string name="confirm_delete_type_title">Delete %1s?</string>
     <string name="confirm_delete_type_text">"Event Type and all Event Instances will be deleted."</string>
+    <string name="rename">Rename</string>
+    <string name="rename_type">Rename %1s</string>
 </resources>

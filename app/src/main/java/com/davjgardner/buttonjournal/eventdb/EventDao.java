@@ -26,6 +26,9 @@ public interface EventDao {
     @Insert
     void createEventType(EventType t);
 
+    @Query("UPDATE eventtype SET name=:to WHERE id=:id")
+    void renameType(int id, String to);
+
     @Delete
     void deleteType(EventType t);
 

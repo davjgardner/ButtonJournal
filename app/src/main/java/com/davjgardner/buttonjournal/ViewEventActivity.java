@@ -2,13 +2,18 @@ package com.davjgardner.buttonjournal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.lifecycle.LiveData;
@@ -43,6 +48,9 @@ public class ViewEventActivity extends AppCompatActivity {
     private EventType eventType;
     private EventViewModel viewModel;
 
+    EventListAdapter listAdapter;
+    TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +60,7 @@ public class ViewEventActivity extends AppCompatActivity {
         eventType.id = getIntent().getIntExtra(EVENT_TYPE_ID, 0);
 
         RecyclerView eventsView = findViewById(R.id.event_list);
-        final EventListAdapter listAdapter = new EventListAdapter(new EventDiff());
+        listAdapter = new EventListAdapter(new EventDiff());
         eventsView.setAdapter(listAdapter);
         eventsView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -61,7 +69,7 @@ public class ViewEventActivity extends AppCompatActivity {
         events = viewModel.getEvents();
         viewModel.getEvents().observe(this, listAdapter::submitList);
 
-        TextView title = findViewById(R.id.event_view_title);
+        title = findViewById(R.id.event_view_title);
         title.setText(eventType.name);
 
         FloatingActionButton addButton = findViewById(R.id.event_view_add_event);
@@ -108,6 +116,47 @@ public class ViewEventActivity extends AppCompatActivity {
             TextView totalCount = findViewById(R.id.tv_total_count);
             totalCount.setText(lts(events.size()));
         });
+    }
+
+    private boolean deleteMode = false;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.event_view_menu, menu);
+        MenuItem deleteItem = menu.findItem(R.id.menu_delete_events);
+        deleteItem.setTitle(deleteMode? R.string.done : R.string.delete_events);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_delete_events) {
+            deleteMode = !deleteMode;
+            item.setTitle(deleteMode? R.string.done : R.string.delete_events);
+            listAdapter.notifyDataSetChanged();
+            return true;
+        } else if (item.getItemId() == R.id.menu_rename_type) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.rename_type, eventType.name));
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT
+                    | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE
+                    | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+            builder.setView(input)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                            rename(input.getText().toString()))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void rename(String to) {
+        viewModel.renameType(eventType, to);
+        eventType.name = to;
+        title.setText(to);
     }
 
     @Override
@@ -264,9 +313,9 @@ public class ViewEventActivity extends AppCompatActivity {
 
         public void bind(EventItem event) {
             AppCompatImageButton deleteButton = itemRoot.findViewById(R.id.event_view_delete_event);
-            deleteButton.setOnClickListener(l -> {
-                viewModel.deleteEvent(event);
-            });
+            deleteButton.setEnabled(deleteMode);
+            deleteButton.setVisibility(deleteMode? View.VISIBLE : View.INVISIBLE);
+            deleteButton.setOnClickListener(l -> viewModel.deleteEvent(event));
 
             TextView timestampText = itemRoot.findViewById(R.id.event_view_time);
             // FIXME format date

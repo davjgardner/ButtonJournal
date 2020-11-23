@@ -42,4 +42,6 @@ public class EventViewModel extends AndroidViewModel {
         repo.deleteEvent(e);
     }
 
+    public void renameType(EventType t, String to) { repo.renameType(t, to); }
+
 }

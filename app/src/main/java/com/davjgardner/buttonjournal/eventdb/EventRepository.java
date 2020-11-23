@@ -55,4 +55,8 @@ public class EventRepository {
             eventDao.deleteType(t);
         });
     }
+
+    public void renameType(EventType t, String to) {
+        EventDB.databaseWriter.execute(() -> eventDao.renameType(t.id, to));
+    }
 }
