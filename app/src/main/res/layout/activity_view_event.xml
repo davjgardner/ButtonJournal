@@ -19,7 +19,7 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/base_padding"
         android:paddingEnd="@dimen/base_padding"
@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_average"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
         </TableRow>
 
         <TableRow
@@ -143,7 +144,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -159,18 +160,6 @@
 
         </TableRow>
     </TableLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/event_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/base_padding"
-        android:paddingEnd="@dimen/base_padding"
-        android:layout_marginBottom="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_event_log"
-        tools:listitem="@layout/event_view" />
 
     <TextView
         android:id="@+id/title_event_log"
@@ -194,5 +183,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add"
         android:focusable="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/event_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_event_log"
+        tools:listitem="@layout/event_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
