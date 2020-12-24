@@ -32,11 +32,6 @@ public class AddEventActivity extends AppCompatActivity {
         title.setText(getString(R.string.title_new_event, getIntent().getStringExtra(ViewEventActivity.EVENT_TYPE_NAME)));
 
         date = Calendar.getInstance();
-        int y = date.get(Calendar.YEAR);
-        int m = date.get(Calendar.MONTH);
-        int d = date.get(Calendar.DAY_OF_MONTH);
-        int hr = date.get(Calendar.HOUR);
-        int min = date.get(Calendar.MINUTE);
 
         Button dateButton = findViewById(R.id.btn_pick_date);
         Button timeButton = findViewById(R.id.btn_pick_time);
@@ -48,7 +43,8 @@ public class AddEventActivity extends AppCompatActivity {
 
         dateButton.setOnClickListener(l -> {
             DatePickerDialog datePicker = new DatePickerDialog(AddEventActivity.this, 0);
-            datePicker.getDatePicker().init(y, m, d, (dp, year, month, day) -> {
+            datePicker.getDatePicker().init(date.get(Calendar.YEAR), date.get(Calendar.MONTH),
+                    date.get(Calendar.DAY_OF_MONTH), (dp, year, month, day) -> {
                 date.set(year, month, day);
                 dateField.setText(DateFormat.getDateFormat(this).format(date.getTime()));
             });
@@ -61,7 +57,8 @@ public class AddEventActivity extends AppCompatActivity {
                 date.set(Calendar.HOUR_OF_DAY, hour);
                 date.set(Calendar.MINUTE, minute);
                 timeField.setText(DateFormat.getTimeFormat(this).format(date.getTime()));
-            }, hr, min, false);
+                Log.d(TAG, "new hr: " + hour);
+            }, date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), false);
             timePicker.show();
         });
 
